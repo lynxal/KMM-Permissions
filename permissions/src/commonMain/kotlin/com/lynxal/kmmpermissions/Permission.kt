@@ -1,0 +1,15 @@
+package com.lynxal.kmmpermissions
+
+enum class Permission {
+    FINE_LOCATION,
+    COARSE_LOCATION,
+    BLUETOOTH_LE,
+    BLUETOOTH_SCAN,
+    BLUETOOTH_ADVERTISE,
+    BLUETOOTH_CONNECT,
+    NOTIFICATIONS,
+    READ_STORAGE,
+    WRITE_STORAGE,
+    GALLERY,
+    CAMERA
+}
