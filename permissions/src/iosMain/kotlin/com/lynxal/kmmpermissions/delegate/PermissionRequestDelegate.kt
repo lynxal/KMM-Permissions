@@ -5,7 +5,7 @@ import com.lynxal.kmmpermissions.PermissionState
 /**
  * This interface provides the main
  */
-interface PermissionRequestDelegate {
+internal interface PermissionRequestDelegate {
     suspend fun requestPermission()
     suspend fun requestPermissionState() : PermissionState
 }

@@ -1,6 +1,6 @@
 package com.lynxal.kmmpermissions
 
 open class PermissionDeniedException(
-    val permission: Permission,
+    permission: Permission,
     message: String? = null
-) : Exception(message)
+) : PermissionRequestException(permission, message)

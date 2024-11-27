@@ -7,7 +7,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 
 // This helper class is inspired by MOKO Resource, so some part of the codebase might seem familiar
-class PermissionsHelper() {
+internal class PermissionsHelper() {
     private var requestedPermissionDetails: RequestedPermissionDetails? = null
     fun handlePermissionRequestCallback(
         permissionsResult: Map<String, Boolean>, activity: ComponentActivity

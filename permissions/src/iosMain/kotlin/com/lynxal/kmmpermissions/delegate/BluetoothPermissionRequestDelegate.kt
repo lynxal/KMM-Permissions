@@ -7,7 +7,7 @@ import com.lynxal.kmmpermissions.BluetoothTurnedOffException
 import com.lynxal.kmmpermissions.Permission
 import com.lynxal.kmmpermissions.PermissionDeniedPermanentlyException
 import com.lynxal.kmmpermissions.PermissionState
-import com.lynxal.kmmpermissions.UnsupportedException
+import com.lynxal.kmmpermissions.PermissionRequestUnsupportedException
 import platform.CoreBluetooth.CBCentralManager
 import platform.CoreBluetooth.CBCentralManagerDelegateProtocol
 import platform.CoreBluetooth.CBManager
@@ -27,7 +27,7 @@ import platform.darwin.NSObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class BluetoothPermissionRequestDelegate(
+internal class BluetoothPermissionRequestDelegate(
     private val permission: Permission
 ) : PermissionRequestDelegate {
     override suspend fun requestPermission() {
@@ -52,7 +52,7 @@ class BluetoothPermissionRequestDelegate(
             CBManagerStateUnauthorized -> throw PermissionDeniedPermanentlyException(permission)
             CBManagerStatePoweredOff -> throw BluetoothTurnedOffException("Bluetooth is powered off")
             CBManagerStateResetting -> throw BluetoothResettingException("Bluetooth is restarting")
-            CBManagerStateUnsupported -> throw UnsupportedException(
+            CBManagerStateUnsupported -> throw PermissionRequestUnsupportedException(
                 permission,
                 "Bluetooth is not supported on this device"
             )

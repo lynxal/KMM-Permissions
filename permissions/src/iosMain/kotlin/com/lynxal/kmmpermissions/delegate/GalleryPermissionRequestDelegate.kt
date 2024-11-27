@@ -9,7 +9,7 @@ import platform.Photos.PHPhotoLibrary
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class GalleryPermissionRequestDelegate : PermissionRequestDelegate {
+internal class GalleryPermissionRequestDelegate : PermissionRequestDelegate {
     override suspend fun requestPermission() {
         providePermission(PHPhotoLibrary.authorizationStatus())
     }

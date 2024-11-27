@@ -14,7 +14,7 @@ import platform.AVFoundation.requestAccessForMediaType
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class CameraPermissionRequestDelegate : PermissionRequestDelegate {
+internal class CameraPermissionRequestDelegate : PermissionRequestDelegate {
     override suspend fun requestPermission() {
         when (val state = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)) {
             AVAuthorizationStatusAuthorized -> return

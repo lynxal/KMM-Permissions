@@ -17,7 +17,7 @@ import platform.UserNotifications.UNNotificationSettings
 import platform.UserNotifications.UNUserNotificationCenter
 import kotlin.coroutines.suspendCoroutine
 
-class NotificationPermissionRequestDelegate : PermissionRequestDelegate {
+internal class NotificationPermissionRequestDelegate : PermissionRequestDelegate {
     override suspend fun requestPermission() {
         val status = suspendCoroutine { continuation ->
             UNUserNotificationCenter.currentNotificationCenter()

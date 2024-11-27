@@ -1,6 +1,6 @@
 package com.lynxal.kmmpermissions
 
-fun Permission.toPlatformPermission(): List<String> = when(this) {
+internal fun Permission.toPlatformPermission(): List<String> = when(this) {
     Permission.FINE_LOCATION -> PlatformPermissions.fineLocation
     Permission.COARSE_LOCATION -> PlatformPermissions.coarseLocation
     Permission.BLUETOOTH_LE -> PlatformPermissions.bluetoothLe

@@ -1,6 +1,6 @@
 package com.lynxal.kmmpermissions
 
-class RequestedPermissionDetails (
+internal class RequestedPermissionDetails (
     val permission: Permission,
     val callback: (Result<Unit>) -> Unit
 )

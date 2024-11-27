@@ -1,6 +1,6 @@
 package com.lynxal.kmmpermissions
 
 class PermissionRequestCancelledException(
-    val permission: Permission,
+    permission: Permission,
     message: String? = null
-) : Exception(message)
+) : PermissionRequestException(permission, message)
