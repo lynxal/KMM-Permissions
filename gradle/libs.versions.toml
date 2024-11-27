@@ -1,6 +1,6 @@
 [versions]
-agp = "8.4.2"
-kotlin = "2.0.20"
+agp = "8.7.2"
+kotlin = "2.0.21"
 compose = "1.6.11"
 androidAppCompat = "1.7.0"
 androidComposeActivity = "1.9.3"
