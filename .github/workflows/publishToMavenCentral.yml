@@ -1,0 +1,60 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Publish to Maven Central
+
+permissions:
+  contents: read
+  
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  release:
+    types: [released]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Build the library first
+  build-release:
+    uses: ./.github/workflows/buildLibrary.yml
+
+  publish:
+    needs: build-release
+    
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
+
+    strategy:
+      matrix:
+        include:
+          - target: publishIosArm64PublicationToMavenCentralRepository
+            os: macos-latest
+          - target : publishIosSimulatorArm64PublicationToMavenCentralRepository
+            os: macos-latest
+          - target: publishAndroidReleasePublicationToMavenCentralRepository
+            os: ubuntu-latest
+  
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Validate GradleW
+        uses: gradle/wrapper-validation-action@v1
+        
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: "zulu"
+      
+      - name: Publish to Maven
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: $${{ matrix.target }}
