@@ -1,6 +1,7 @@
 name: Build KMM Library
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:
