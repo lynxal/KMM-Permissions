@@ -61,4 +61,4 @@ jobs:
       - name: Publish to Maven
         uses: gradle/gradle-build-action@v3
         with:
-          arguments: $${{ matrix.target }}
+          arguments: ${{ matrix.target }}
