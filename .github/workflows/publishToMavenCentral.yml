@@ -21,6 +21,8 @@ jobs:
 
   publish:
     needs: build-release
+    # Action fails for no visible reason, it might be something timeout-related
+    timeout-minutes: 15
     
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
