@@ -23,13 +23,6 @@ jobs:
     needs: build-release
     # Action fails for no visible reason, it might be something timeout-related
     timeout-minutes: 15
-    
-    env:
-      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
-      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
-      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
-      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
-      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
 
     strategy:
       # If any target fails, cancel the whole matrix
@@ -60,5 +53,13 @@ jobs:
       
       - name: Publish to Maven
         uses: gradle/gradle-build-action@v3
+
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
+        
         with:
           arguments: ${{ matrix.target }}
