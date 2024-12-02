@@ -23,7 +23,8 @@ jobs:
     needs: build-release
     # Action fails for no visible reason, it might be something timeout-related
     timeout-minutes: 15
-
+    environment: Release
+    
     strategy:
       # If any target fails, cancel the whole matrix
       fail-fast: true
