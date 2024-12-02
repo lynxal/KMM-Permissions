@@ -32,6 +32,8 @@ jobs:
       ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
 
     strategy:
+      # If any target fails, cancel the whole matrix
+      fail-fast: true
       matrix:
         include:
           - target: publishIosArm64PublicationToMavenCentralRepository
