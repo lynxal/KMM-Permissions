@@ -67,7 +67,7 @@ android {
 }
 
 mavenPublishing {
-//    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
     coordinates("com.lynxal.permissions", "permissions", "0.0.3")
