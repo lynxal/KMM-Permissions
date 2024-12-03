@@ -16,4 +16,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "KmmPermissions"
 include(":permissions")
-include(":logging")

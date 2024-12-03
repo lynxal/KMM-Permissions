@@ -12,6 +12,7 @@ plugins {
 kotlin {
     androidTarget()
     listOf(
+        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -33,7 +34,7 @@ kotlin {
                 //put your multiplatform dependencies here
                 implementation(libs.coroutinesCore)
                 implementation(compose.runtime)
-                implementation(project(":logging"))
+                implementation(libs.logging)
             }
         }
         commonTest {
@@ -66,10 +67,10 @@ android {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+//    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
-    coordinates("com.lynxal.permissions", "permissions", "0.0.1")
+    coordinates("com.lynxal.permissions", "permissions", "0.0.3")
     pom {
         name.set("KMM Permissions")
         description.set("A Kotlin Multiplatform Mobile (KMM) library for managing permissions in Android and iOS applications, designed with Jetpack Compose in mind and optimized for modern platforms.")
