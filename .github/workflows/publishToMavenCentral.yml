@@ -30,7 +30,7 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - target: publishKotlinMultiplatformPublicationToMavenCentralRepository
+          - target: publishAllPublicationsToMavenCentralRepository
             os: macos-latest
   
     runs-on: ${{ matrix.os }}
