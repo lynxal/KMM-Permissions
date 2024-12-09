@@ -7,7 +7,7 @@ androidComposeActivity = "1.9.3"
 androidLifecycleRuntime = "2.8.6"
 coroutinesVersion = "1.8.1"
 kotlinCompatibility = "1.5.14"
-logging = "0.0.1"
+logging = "0.0.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
