@@ -21,6 +21,17 @@ jobs:
 
   publish:
     needs: build-release
+    # Action fails for no visible reason, it might be something timeout-related
+    timeout-minutes: 15
+    environment: Release
+    
+    strategy:
+      # If any target fails, cancel the whole matrix
+      fail-fast: true
+      matrix:
+        include:
+          - target: publishAllPublicationsToMavenCentralRepository
+            os: macos-latest
     
     env:
       ORG_GRADLE_PROJECT_mavenCentralUsername: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
@@ -28,33 +39,31 @@ jobs:
       ORG_GRADLE_PROJECT_signingInMemoryKey: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
       ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
       ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
-
-    strategy:
-      matrix:
-        include:
-          - target: publishIosArm64PublicationToMavenCentralRepository
-            os: macos-latest
-          - target : publishIosSimulatorArm64PublicationToMavenCentralRepository
-            os: macos-latest
-          - target: publishAndroidReleasePublicationToMavenCentralRepository
-            os: ubuntu-latest
   
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
       - name: Validate GradleW
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v3
         
       - name: Setup JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: "zulu"
       
       - name: Publish to Maven
         uses: gradle/gradle-build-action@v3
+
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY}}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID}}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD}}
+        
         with:
-          arguments: $${{ matrix.target }}
+          arguments: ${{ matrix.target }}

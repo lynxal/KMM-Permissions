@@ -1,7 +1,6 @@
 package com.lynxal.kmmpermissions.delegate
 
 import com.lynxal.logging.Logger
-import com.lynxal.logging.debug
 import com.lynxal.kmmpermissions.BluetoothResettingException
 import com.lynxal.kmmpermissions.BluetoothTurnedOffException
 import com.lynxal.kmmpermissions.Permission

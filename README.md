@@ -18,9 +18,14 @@ This library consists of three core components:
 
 ## Installation
 
-Currently, **KMMPermissions** is not published to any artifact repository (e.g., Maven Central or a private Artifactory). Publishing is planned for a future release.
+## Installation
 
-For now, you can use the library by cloning the repository directly
+Add the following dependency to your shared module's `build.gradle.kts` file:
+
+```kotlin
+implementation("com.lynxal.permissions:permissions:{latest_version}")
+```
+
 
 ---
 
