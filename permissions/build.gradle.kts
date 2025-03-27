@@ -70,7 +70,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
-    coordinates("com.lynxal.permissions", "permissions", "0.0.3")
+    coordinates("com.lynxal.permissions", "permissions", "0.0.4")
     pom {
         name.set("KMM Permissions")
         description.set("A Kotlin Multiplatform Mobile (KMM) library for managing permissions in Android and iOS applications, designed with Jetpack Compose in mind and optimized for modern platforms.")

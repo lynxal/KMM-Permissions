@@ -1,0 +1,4 @@
+0.0.4
+Fixed an issue with opening system settings on iOS. Previously, users reported a terminal warning:
+“BUG IN CLIENT OF UIKIT: The caller of UIApplication.openURL(:) needs to migrate to the non-deprecated UIApplication.open(:options:completionHandler:). Force returning false (NO).”
+This version updates the implementation to use the modern API and resolves the warning.
