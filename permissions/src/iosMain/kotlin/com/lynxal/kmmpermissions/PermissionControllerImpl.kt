@@ -27,7 +27,7 @@ class PermissionControllerImpl : PermissionsController {
     override suspend fun openAppSettings() {
         NSURL.URLWithString(UIApplicationOpenSettingsURLString)?.also { url ->
             if (UIApplication.sharedApplication.canOpenURL(url)) {
-                UIApplication.sharedApplication.openURL(url)
+                UIApplication.sharedApplication.openURL(url, mapOf<Any?, Any?>()) {}
             } else {
                 throw CannotOpenSettingsException("Could not open the app settings")
             }
