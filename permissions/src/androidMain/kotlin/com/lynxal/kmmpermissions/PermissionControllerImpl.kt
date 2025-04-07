@@ -9,15 +9,16 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import com.lynxal.logging.Logger
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -71,6 +72,11 @@ class PermissionControllerImpl(
                 }
         }
 
+        // At this moment write to external storage is not supported
+        // Probably the library should migrate to the "Media store"
+        if (permission == Permission.WRITE_STORAGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            return PermissionState.UNAVAILABLE
+
         val permissionsStatus = platformPermissions.map {
             Triple(
                 it,
@@ -104,7 +110,7 @@ class PermissionControllerImpl(
 
     @Composable
     override fun Register() {
-        val activity = LocalContext.current as ComponentActivity
+        val activity = LocalActivity.current as ComponentActivity
         val launcher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 permissionsHelper.handlePermissionRequestCallback(
@@ -156,7 +162,7 @@ class PermissionControllerImpl(
             }
 
             if (numDenied != updatedNumDenied) {
-                sharedPreferences.edit().putInt(deniedNumKey, updatedNumDenied).apply()
+                sharedPreferences.edit { putInt(deniedNumKey, updatedNumDenied) }
             }
         }
     }

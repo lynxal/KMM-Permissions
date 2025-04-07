@@ -3,8 +3,8 @@ import com.vanniktech.maven.publish.SonatypeHost
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.compose)
-    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
     id("com.vanniktech.maven.publish") version "0.30.0"
     id("signing")
 }
@@ -24,15 +24,15 @@ kotlin {
     sourceSets {
         androidMain {
             dependencies {
-                implementation(libs.androidAppCompat)
-                implementation(libs.androidComposeActivity)
-                implementation(libs.androidLifecycleRuntime)
+                implementation(libs.android.appCompat)
+                implementation(libs.androidx.activityCompose)
+                implementation(libs.android.lifecycleRuntime)
             }
         }
         commonMain {
             dependencies {
                 //put your multiplatform dependencies here
-                implementation(libs.coroutinesCore)
+                implementation(libs.coroutines.core)
                 implementation(compose.runtime)
                 implementation(libs.logging)
             }
@@ -70,7 +70,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
-    coordinates("com.lynxal.permissions", "permissions", "0.0.4")
+    coordinates("com.lynxal.permissions", "permissions", "0.0.5")
     pom {
         name.set("KMM Permissions")
         description.set("A Kotlin Multiplatform Mobile (KMM) library for managing permissions in Android and iOS applications, designed with Jetpack Compose in mind and optimized for modern platforms.")

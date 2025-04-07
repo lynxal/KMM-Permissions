@@ -18,12 +18,10 @@ This library consists of three core components:
 
 ## Installation
 
-## Installation
-
 Add the following dependency to your shared module's `build.gradle.kts` file:
 
 ```kotlin
-implementation("com.lynxal.permissions:permissions:{latest_version}")
+implementation("com.lynxal.permissions:permissions:0.0.5")
 ```
 
 
@@ -109,6 +107,22 @@ when (permissionState) {
     PermissionState.UNAVAILABLE -> { /* Handle unavailable state */ }
     PermissionState.GRANTED -> { /* Handle granted state */ }
 }
+```
+
+## Supported Permissions
+
+```
+FINE_LOCATION
+COARSE_LOCATION
+BLUETOOTH_LE
+BLUETOOTH_SCAN
+BLUETOOTH_ADVERTISE
+BLUETOOTH_CONNECT
+NOTIFICATIONS
+READ_STORAGE
+WRITE_STORAGE - At this moment write to external storage is not supported on Android. We are working on this
+GALLERY
+CAMERA
 ```
 
 The KmmPermissions library simplifies permission management in KMM projects. It provides a Compose-friendly API and platform-specific support for Android and iOS.
