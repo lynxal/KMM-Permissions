@@ -1,0 +1,14 @@
+<resources>
+    <string name="label_choose_permission_section">Select the permission you want to check</string>
+    <string name="label_permissions_fine_location">Fine Location</string>string>,
+    <string name="label_permissions_coarse_location">Coarse Location</string>string>,
+    <string name="label_permissions_bluetooth_le">BluetoothLe</string>string>,
+    <string name="label_permissions_bluetooth_scan">Bluetooth Scan</string>string>,
+    <string name="label_permissions_bluetooth_advertise">Bluetooth Advertise</string>string>,
+    <string name="label_permissions_bluetooth_connect">Bluetooth Connect</string>string>,
+    <string name="label_permissions_notifications">Notifications</string>string>,
+    <string name="label_permissions_read_storage">Read Storage</string>string>,
+    <string name="label_permissions_write_storage">Write Storage</string>string>,
+    <string name="label_permissions_gallery">Gallery</string>string>,
+    <string name="label_permissions_camera">Camera</string>
+</resources>
