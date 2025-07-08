@@ -21,7 +21,7 @@ This library consists of three core components:
 Add the following dependency to your shared module's `build.gradle.kts` file:
 
 ```kotlin
-implementation("com.lynxal.permissions:permissions:0.0.5")
+implementation("com.lynxal.permissions:permissions:0.0.6")
 ```
 
 
