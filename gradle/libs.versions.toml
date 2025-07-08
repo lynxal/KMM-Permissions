@@ -1,19 +1,17 @@
 [versions]
-agp = "8.7.2"
-kotlin = "2.1.0"
-android-appCompat = "1.7.0"
-coroutines = "1.8.1"
-voyager = "1.1.0-beta02"
-kotlinCompatibility = "1.5.14"
-logging = "0.0.5"
+agp = "8.11.0"
+kotlin = "2.2.0"
+android-appCompat = "1.7.1"
+coroutines = "1.10.2"
+voyager = "1.1.0-beta03"
+logging = "0.0.6"
 
-compose-multiplatform = "1.7.3"
-androidx-lifecycle = "2.8.4"
-androidx-material = "1.12.0"
+compose-multiplatform = "1.8.2"
+androidx-lifecycle = "2.9.1"
 androidx-activityCompose = "1.10.1"
-android-compileSdk = "35"
+android-compileSdk = "36"
 android-minSdk = "24"
-android-targetSdk = "35"
+android-targetSdk = "36"
 
 
 [libraries]
@@ -21,7 +19,6 @@ android-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "an
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
-androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycleViewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycleRuntimeCompose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }

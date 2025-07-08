@@ -44,6 +44,10 @@ kotlin {
             api(project(":permissions"))
         }
     }
+
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime")
+    }
 }
 
 android {
