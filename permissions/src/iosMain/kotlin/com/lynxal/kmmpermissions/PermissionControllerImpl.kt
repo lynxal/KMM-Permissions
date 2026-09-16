@@ -4,6 +4,7 @@ import com.lynxal.kmmpermissions.delegate.AlwaysGrantedPermissionRequestDelegate
 import com.lynxal.kmmpermissions.delegate.BluetoothPermissionRequestDelegate
 import com.lynxal.kmmpermissions.delegate.CameraPermissionRequestDelegate
 import com.lynxal.kmmpermissions.delegate.GalleryPermissionRequestDelegate
+import com.lynxal.kmmpermissions.delegate.LocalNetworkPermissionRequestDelegate
 import com.lynxal.kmmpermissions.delegate.LocationManagerDelegate
 import com.lynxal.kmmpermissions.delegate.LocationPermissionRequestDelegate
 import com.lynxal.kmmpermissions.delegate.NotificationPermissionRequestDelegate
@@ -50,6 +51,8 @@ class PermissionControllerImpl : PermissionsController {
 
             Permission.GALLERY -> GalleryPermissionRequestDelegate()
             Permission.CAMERA -> CameraPermissionRequestDelegate()
+
+            Permission.LOCAL_NETWORK -> LocalNetworkPermissionRequestDelegate()
         }
     }
 }

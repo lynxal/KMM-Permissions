@@ -12,4 +12,5 @@ internal fun Permission.toPlatformPermission(): List<String> = when(this) {
     Permission.WRITE_STORAGE -> PlatformPermissions.writeStorage
     Permission.GALLERY -> PlatformPermissions.gallery
     Permission.CAMERA -> PlatformPermissions.camera
+    Permission.LOCAL_NETWORK -> PlatformPermissions.localNetwork
 }

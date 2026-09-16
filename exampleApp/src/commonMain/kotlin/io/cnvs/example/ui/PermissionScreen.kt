@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
@@ -36,13 +37,15 @@ class PermissionScreen(permissionOrdinal: Int) : Screen {
     @Composable
     override fun Content() {
         val permissionController = remember { appInfoInstance.createPermissionController() }
+        val localNetworkTester = remember { appInfoInstance.createLocalNetworkTester() }
         var permissionState by remember { mutableStateOf(PermissionState.UNKNOWN) }
+        var localNetworkTestResult by remember { mutableStateOf("") }
         var coroutineScope = rememberCoroutineScope()
         BindEffect(permissionController)
 
         Scaffold(
             topBar = {
-                Column(modifier = Modifier.height(56.dp).fillMaxWidth()) {
+                Column(modifier = Modifier.fillMaxWidth().statusBarsPadding().height(56.dp)) {
                     val localNavigator = LocalNavigator.current
                     Button(onClick = { localNavigator?.pop() }) {
                         Text("Back")
@@ -99,6 +102,39 @@ class PermissionScreen(permissionOrdinal: Int) : Screen {
                             }) {
                             Text("Open Settings")
                         }
+                    }
+
+                    // Local network access is only visible through a real network operation, so this
+                    // screen offers one: looking for printers and the other devices that announce
+                    // themselves over mDNS.
+                    if (permission == Permission.LOCAL_NETWORK) {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                modifier = Modifier.weight(1f), onClick = {
+                                    coroutineScope.launch {
+                                        localNetworkTestResult = "Looking for printers and other devices…"
+                                        val discovery = localNetworkTester.discoverServices()
+                                        localNetworkTestResult = discovery.message
+
+                                        // On iOS the system raises its own dialog when the app
+                                        // touches the network, and nothing reports the answer back
+                                        // to the library — so what the discovery saw is the most
+                                        // direct evidence this screen has.
+                                        when (discovery.reachedNetwork) {
+                                            true -> permissionState = PermissionState.GRANTED
+                                            false -> permissionState = PermissionState.DENIED_ALWAYS
+                                            null -> Unit
+                                        }
+                                    }
+                                }) {
+                                Text("Discover Devices")
+                            }
+                        }
+
+                        Text(
+                            modifier = Modifier.padding(12.dp),
+                            text = localNetworkTestResult
+                        )
                     }
                 }
             }

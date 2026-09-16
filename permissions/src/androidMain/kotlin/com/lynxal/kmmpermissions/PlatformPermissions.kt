@@ -87,4 +87,11 @@ object PlatformPermissions {
                 add(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+
+    val localNetwork: List<String>
+        get() = mutableListOf<String>().apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CINNAMON_BUN) {
+                add(Manifest.permission.ACCESS_LOCAL_NETWORK)
+            }
+        }
 }

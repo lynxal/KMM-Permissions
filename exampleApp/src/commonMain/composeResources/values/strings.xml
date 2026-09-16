@@ -11,4 +11,5 @@
     <string name="label_permissions_write_storage">Write Storage</string>string>,
     <string name="label_permissions_gallery">Gallery</string>string>,
     <string name="label_permissions_camera">Camera</string>
+    <string name="label_permissions_local_network">Local Network</string>
 </resources>
