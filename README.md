@@ -14,6 +14,17 @@ This library consists of three core components:
 - The library is built for **Compose Multiplatform / Jetpack compose** and relies heavily on composable functions.
 - It is designed for **Kotlin Multiplatform Mobile (KMM)** projects targeting both Android and iOS.
 
+## Supported targets
+
+| Platform | Targets |
+|---|---|
+| Android | `android` |
+| iOS | `iosArm64`, `iosSimulatorArm64` |
+
+> **Note:** `iosX64` (Intel simulator) is no longer supported as of version 0.0.7.
+> Compose Multiplatform and the JetBrains androidx artifacts stopped publishing it,
+> and all current Macs run Apple Silicon. Intel-simulator consumers should stay on 0.0.6.
+
 ---
 
 ## Installation
@@ -21,7 +32,7 @@ This library consists of three core components:
 Add the following dependency to your shared module's `build.gradle.kts` file:
 
 ```kotlin
-implementation("com.lynxal.permissions:permissions:0.0.6")
+implementation("com.lynxal.permissions:permissions:0.0.7")
 ```
 
 
