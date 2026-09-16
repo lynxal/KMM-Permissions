@@ -139,7 +139,7 @@ LOCAL_NETWORK
 
 ### LOCAL_NETWORK
 
-Local network access — mDNS/Bonjour discovery and plain LAN sockets. It needs setup on both platforms.
+Local network access: mDNS/Bonjour discovery and plain LAN sockets. It needs setup on both platforms.
 
 **Android.** Declare the permission in the app manifest:
 
@@ -149,7 +149,7 @@ Local network access — mDNS/Bonjour discovery and plain LAN sockets. It needs 
 
 It is a runtime permission from Android 17 (API 37) on, and only for apps that target API 37 or
 higher. On an older device, or while the app targets an older SDK, access is granted implicitly:
-the library then reports `GRANTED` and never shows a dialog, which is what Android asks for — an
+the library then reports `GRANTED` and never shows a dialog, which is what Android asks for: an
 app targeting API 36 or lower must not request the permission.
 
 **iOS.** Add both keys to the app's `Info.plist`:
@@ -165,14 +165,14 @@ app targeting API 36 or lower must not request the permission.
 
 iOS publishes no API for reading local network authorization, so the library infers it: it
 advertises a throwaway `_kmmpermissions._tcp` service and browses for that same service. Finding it
-means access is allowed; a "policy denied" answer from the DNS layer means the user said no. Three
+means access is allowed; a "policy denied" answer from the DNS layer means the user said no. Four
 things follow from that:
 
 - The first `requestPermission` is what raises the system dialog. A check never prompts: until the
   app has asked, `requestPermissionState` answers `UNDETERMINED` instead of probing. After that it
   probes on every read, which no longer raises a dialog because the system has already answered.
-- What iOS cannot tell the library: if your own code reaches the local network first — an mDNS
-  browse, a socket to a LAN address — the system raises the dialog itself, and nothing reports the
+- What iOS cannot tell the library: if your own code reaches the local network first (an mDNS
+  browse, a socket to a LAN address), the system raises the dialog itself and nothing reports the
   answer back. Until the library probes, the check still says `UNDETERMINED`. Either ask through
   `requestPermission` before touching the network, or take your own network result as the answer:
   services discovered means access works, a "policy denied" error means it does not. The example
@@ -180,8 +180,8 @@ things follow from that:
 - A denial reads back as `DENIED_ALWAYS`. iOS asks once, and only the Settings app can change the
   answer afterwards.
 - Without the two `Info.plist` keys the probe cannot run and the permission reports `UNAVAILABLE`.
-  On the iOS Simulator the restriction is not enforced, so the probe always reports `GRANTED` — test
-  this permission on a real device.
+  On the iOS Simulator the restriction is not enforced, so the probe always reports `GRANTED`, so
+  test this permission on a real device.
 
 The KmmPermissions library simplifies permission management in KMM projects. It provides a Compose-friendly API and platform-specific support for Android and iOS.
 
