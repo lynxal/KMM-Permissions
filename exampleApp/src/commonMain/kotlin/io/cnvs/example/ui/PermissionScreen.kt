@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
@@ -44,7 +45,7 @@ class PermissionScreen(permissionOrdinal: Int) : Screen {
 
         Scaffold(
             topBar = {
-                Column(modifier = Modifier.height(56.dp).fillMaxWidth()) {
+                Column(modifier = Modifier.fillMaxWidth().statusBarsPadding().height(56.dp)) {
                     val localNavigator = LocalNavigator.current
                     Button(onClick = { localNavigator?.pop() }) {
                         Text("Back")
