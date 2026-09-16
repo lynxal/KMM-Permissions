@@ -11,5 +11,6 @@ enum class Permission {
     READ_STORAGE,
     WRITE_STORAGE,
     GALLERY,
-    CAMERA
+    CAMERA,
+    LOCAL_NETWORK
 }

@@ -44,7 +44,20 @@ class PermissionControllerImpl(
 
     private val permissionsLauncher = mutableStateOf<ActivityResultLauncher<Array<String>>?>(null)
 
+    // Local network access is a runtime permission only from Android 17 on, and only for apps that
+    // target it. An app targeting an older SDK keeps the implicit grant, and Android documents that
+    // it must not ask for the permission at runtime.
+    private val isLocalNetworkAccessImplicitlyGranted: Boolean
+        get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.CINNAMON_BUN ||
+                appContext.applicationInfo.targetSdkVersion < Build.VERSION_CODES.CINNAMON_BUN
+
     override suspend fun requestPermission(permission: Permission) {
+        if (permission == Permission.LOCAL_NETWORK && isLocalNetworkAccessImplicitlyGranted) {
+            Logger.tag("PermissionsController")
+                .debug("Local network access is implicitly granted, not requesting it")
+            return
+        }
+
         mutex.withLock {
             suspendCoroutine { continuation ->
                 val activityLocal = activity.get()
@@ -76,6 +89,9 @@ class PermissionControllerImpl(
         // Probably the library should migrate to the "Media store"
         if (permission == Permission.WRITE_STORAGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             return PermissionState.UNAVAILABLE
+
+        if (permission == Permission.LOCAL_NETWORK && isLocalNetworkAccessImplicitlyGranted)
+            return PermissionState.GRANTED
 
         val permissionsStatus = platformPermissions.map {
             Triple(
