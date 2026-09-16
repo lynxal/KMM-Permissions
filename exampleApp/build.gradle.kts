@@ -14,8 +14,9 @@ kotlin {
         }
     }
 
+    // No iosX64: Compose Multiplatform 1.12.0 and the JetBrains androidx artifacts no longer
+    // publish an ios_x64 variant. The :permissions library dropped the target as well.
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->

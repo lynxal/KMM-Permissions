@@ -1,16 +1,28 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.androidKmpLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    id("com.vanniktech.maven.publish") version "0.33.0"
+    id("com.vanniktech.maven.publish") version "0.37.0"
     id("signing")
 }
 
 kotlin {
-    androidTarget()
+    jvmToolchain((findProperty("jvm.version") as String).toInt())
+
+    android {
+        namespace = "com.lynxal.kmmpermissions"
+        compileSdk {
+            version = release(libs.versions.android.compileSdk.get().toInt())
+        }
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        // Registers the host-test compilation. com.android.library created the unit-test
+        // variant automatically; this plugin does not, so without this the module's tests
+        // silently stop running rather than failing.
+        withHostTestBuilder { }.configure { }
+    }
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -47,28 +59,11 @@ kotlin {
     }
 }
 
-android {
-    namespace = "com.lynxal.kmmpermissions"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        jvmToolchain((findProperty("jvm.version") as String).toInt())
-    }
-}
-
 mavenPublishing {
     publishToMavenCentral()
     signAllPublications()
 
-    coordinates("com.lynxal.permissions", "permissions", "0.0.6")
+    coordinates("com.lynxal.permissions", "permissions", "0.0.7")
     pom {
         name.set("KMM Permissions")
         description.set("A Kotlin Multiplatform Mobile (KMM) library for managing permissions in Android and iOS applications, designed with Jetpack Compose in mind and optimized for modern platforms.")

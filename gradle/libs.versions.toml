@@ -1,17 +1,17 @@
 [versions]
-agp = "8.11.0"
-kotlin = "2.2.0"
-android-appCompat = "1.7.1"
-coroutines = "1.10.2"
+agp = "9.4.0"
+kotlin = "2.4.20"
+android-appCompat = "1.8.0"
+coroutines = "1.11.0"
 voyager = "1.1.0-beta03"
-logging = "0.0.6"
+logging = "0.0.7"
 
-compose-multiplatform = "1.8.2"
-androidx-lifecycle = "2.9.1"
-androidx-activityCompose = "1.10.1"
-android-compileSdk = "36"
+compose-multiplatform = "1.12.0"
+androidx-lifecycle = "2.11.0"
+androidx-activityCompose = "1.13.0"
+android-compileSdk = "37"
 android-minSdk = "24"
-android-targetSdk = "36"
+android-targetSdk = "37"
 
 
 [libraries]
@@ -28,6 +28,7 @@ logging = { module = "com.lynxal.logging:logging", version.ref = "logging" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidKmpLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
