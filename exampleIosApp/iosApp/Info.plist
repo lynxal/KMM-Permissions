@@ -32,6 +32,16 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string></string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>The example app looks for its own Bonjour service to find out whether local network access is allowed.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_kmmpermissions._tcp</string>
+		<string>_ipp._tcp</string>
+		<string>_printer._tcp</string>
+		<string>_airplay._tcp</string>
+		<string>_http._tcp</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

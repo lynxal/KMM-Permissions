@@ -26,6 +26,7 @@ import kmmpermissions.exampleapp.generated.resources.label_permissions_camera
 import kmmpermissions.exampleapp.generated.resources.label_permissions_coarse_location
 import kmmpermissions.exampleapp.generated.resources.label_permissions_fine_location
 import kmmpermissions.exampleapp.generated.resources.label_permissions_gallery
+import kmmpermissions.exampleapp.generated.resources.label_permissions_local_network
 import kmmpermissions.exampleapp.generated.resources.label_permissions_notifications
 import kmmpermissions.exampleapp.generated.resources.label_permissions_read_storage
 import kmmpermissions.exampleapp.generated.resources.label_permissions_write_storage
@@ -46,6 +47,7 @@ class HomeScreen : Screen {
             Res.string.label_permissions_write_storage to Permission.WRITE_STORAGE,
             Res.string.label_permissions_gallery to Permission.GALLERY,
             Res.string.label_permissions_camera to Permission.CAMERA,
+            Res.string.label_permissions_local_network to Permission.LOCAL_NETWORK,
         )
     }
 

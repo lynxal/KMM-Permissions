@@ -5,6 +5,8 @@ import com.lynxal.kmmpermissions.PermissionControllerImpl
 import com.lynxal.kmmpermissions.PermissionsController
 import com.lynxal.logging.DebugLoggerImplementation
 import com.lynxal.logging.Logger
+import io.cnvs.example.localnetwork.AndroidLocalNetworkTester
+import io.cnvs.example.localnetwork.LocalNetworkTester
 
 private lateinit var _appInfoInstance: AppInfo
 actual val appInfoInstance: AppInfo
@@ -19,4 +21,6 @@ class AndroidApp : Application(), AppInfo {
 
     override fun createPermissionController(): PermissionsController =
         PermissionControllerImpl(this)
+
+    override fun createLocalNetworkTester(): LocalNetworkTester = AndroidLocalNetworkTester(this)
 }

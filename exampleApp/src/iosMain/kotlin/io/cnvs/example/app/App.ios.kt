@@ -1,6 +1,7 @@
 package io.cnvs.example.app
 
 import com.lynxal.kmmpermissions.PermissionControllerImpl
+import io.cnvs.example.localnetwork.IosLocalNetworkTester
 
 private lateinit var _appInfoInstance: AppInfo
 actual val appInfoInstance: AppInfo
@@ -9,5 +10,6 @@ actual val appInfoInstance: AppInfo
 fun initApp() {
     _appInfoInstance = object : AppInfo {
         override fun createPermissionController() = PermissionControllerImpl()
+        override fun createLocalNetworkTester() = IosLocalNetworkTester()
     }
 }
