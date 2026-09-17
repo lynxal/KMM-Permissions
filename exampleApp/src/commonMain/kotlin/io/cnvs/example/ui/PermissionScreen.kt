@@ -38,8 +38,11 @@ class PermissionScreen(permissionOrdinal: Int) : Screen {
     override fun Content() {
         val permissionController = remember { appInfoInstance.createPermissionController() }
         val localNetworkTester = remember { appInfoInstance.createLocalNetworkTester() }
+        val storageWriteTester = remember { appInfoInstance.createStorageWriteTester() }
         var permissionState by remember { mutableStateOf(PermissionState.UNKNOWN) }
         var localNetworkTestResult by remember { mutableStateOf("") }
+        var storageWriteResult by remember { mutableStateOf("") }
+        var externalWriteResult by remember { mutableStateOf("") }
         var coroutineScope = rememberCoroutineScope()
         BindEffect(permissionController)
 
@@ -102,6 +105,56 @@ class PermissionScreen(permissionOrdinal: Int) : Screen {
                             }) {
                             Text("Open Settings")
                         }
+                    }
+
+                    // From Android 10 on the library reports write storage as granted because a
+                    // MediaStore write needs no permission. That covers the files the app owns and
+                    // nothing more, so the screen offers both writes: the owned one the report is
+                    // about, and one straight into a shared folder, which is where the line falls.
+                    if (permission == Permission.WRITE_STORAGE) {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                modifier = Modifier.weight(1f), onClick = {
+                                    coroutineScope.launch {
+                                        storageWriteResult = "Writing a file…"
+                                        val write = storageWriteTester.writeOwnedFile()
+                                        storageWriteResult = write.message
+
+                                        // The write is the app's own evidence: a refusal means the
+                                        // permission is not there whatever the state read says.
+                                        if (write.wrote == false) {
+                                            permissionState = PermissionState.DENIED
+                                        }
+                                    }
+                                }) {
+                                Text("Write a File")
+                            }
+                        }
+
+                        Text(
+                            modifier = Modifier.padding(12.dp),
+                            text = storageWriteResult
+                        )
+
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                modifier = Modifier.weight(1f), onClick = {
+                                    coroutineScope.launch {
+                                        externalWriteResult = "Writing to the external folder…"
+                                        externalWriteResult =
+                                            storageWriteTester.writeToExternalFolder().message
+                                    }
+                                }) {
+                                Text("Write a File to External Folder")
+                            }
+                        }
+
+                        // This one deliberately does not touch permissionState: a refusal here is
+                        // the shape of scoped storage, not an answer about the permission.
+                        Text(
+                            modifier = Modifier.padding(12.dp),
+                            text = externalWriteResult
+                        )
                     }
 
                     // Local network access is only visible through a real network operation, so this

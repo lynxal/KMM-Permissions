@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -51,10 +52,26 @@ class PermissionControllerImpl(
         get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.CINNAMON_BUN ||
                 appContext.applicationInfo.targetSdkVersion < Build.VERSION_CODES.CINNAMON_BUN
 
+    // WRITE_EXTERNAL_STORAGE only has an effect while the app still sees the legacy view of
+    // external storage. From Android 10 on, an app writing through the MediaStore owns the files it
+    // creates and needs no storage permission at all, and the platform ignores the old one
+    // (developer.android.com/training/data-storage/shared/media, whose own manifest snippet caps
+    // the permission at maxSdkVersion="29"). An app targeting 29 can keep the legacy view on a much
+    // newer device, so what is read here is the view itself, not the API level.
+    private val isWriteStorageHandledByScopedStorage: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                !Environment.isExternalStorageLegacy()
+
     override suspend fun requestPermission(permission: Permission) {
         if (permission == Permission.LOCAL_NETWORK && isLocalNetworkAccessImplicitlyGranted) {
             Logger.tag("PermissionsController")
                 .debug("Local network access is implicitly granted, not requesting it")
+            return
+        }
+
+        if (permission == Permission.WRITE_STORAGE && isWriteStorageHandledByScopedStorage) {
+            Logger.tag("PermissionsController")
+                .debug("Scoped storage is in effect, not requesting write storage access")
             return
         }
 
@@ -85,10 +102,11 @@ class PermissionControllerImpl(
                 }
         }
 
-        // At this moment write to external storage is not supported
-        // Probably the library should migrate to the "Media store"
-        if (permission == Permission.WRITE_STORAGE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            return PermissionState.UNAVAILABLE
+        // Granted means the app can write the media it owns through the MediaStore, which is what
+        // the platform allows without a permission here. Writing to an arbitrary path outside the
+        // MediaStore still fails, and no permission changes that.
+        if (permission == Permission.WRITE_STORAGE && isWriteStorageHandledByScopedStorage)
+            return PermissionState.GRANTED
 
         if (permission == Permission.LOCAL_NETWORK && isLocalNetworkAccessImplicitlyGranted)
             return PermissionState.GRANTED
