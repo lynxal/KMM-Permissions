@@ -131,11 +131,51 @@ BLUETOOTH_ADVERTISE
 BLUETOOTH_CONNECT
 NOTIFICATIONS
 READ_STORAGE
-WRITE_STORAGE - At this moment write to external storage is not supported on Android. We are working on this
+WRITE_STORAGE - see the section below: granted without a dialog on Android 10 and above
 GALLERY
 CAMERA
 LOCAL_NETWORK
 ```
+
+### WRITE_STORAGE
+
+Writing to shared storage. On Android it needs a manifest entry, capped at the last version where
+the permission still means anything:
+
+```xml
+<uses-permission
+    android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    android:maxSdkVersion="29" />
+```
+
+`WRITE_EXTERNAL_STORAGE` has no effect from Android 10 (API 29) on. An app that writes through the
+MediaStore owns the files it creates and needs no storage permission at all, so from there the
+library reports `GRANTED` and `requestPermission` returns without raising a dialog the system would
+ignore. Below that the permission is requested and reported as it always was, and so it is for an
+app that still holds the legacy view of external storage, which an app targeting API 29 can keep on
+a much newer device. The library reads the view itself (`Environment.isExternalStorageLegacy()`)
+rather than the device API level, so both cases answer correctly.
+
+#### What counts as yours
+
+From Android 10 on, what an app may do with a file depends on who owns it, not on a permission:
+
+- Your app can create files in the shared folders (Downloads, Documents, DCIM, Pictures) with no
+  permission at all, and it owns what it creates. It can read, change and delete its own files.
+- Files another app created are closed to it. Reading them needs the `READ_MEDIA_*` permissions,
+  and changing or deleting them needs the user to confirm, through `MediaStore.createDeleteRequest`
+  or `createWriteRequest`.
+- Uninstalling drops that ownership. Files the app leaves behind are no longer its own, so a
+  reinstalled app cannot delete them by itself. This surprises people during testing, when the same
+  app is installed over and over.
+
+So `GRANTED` means "this app can write its own files", which is all the old permission still
+covers. An app that needs to reach every file on the device wants All files access
+(`MANAGE_EXTERNAL_STORAGE`), which this library does not offer yet.
+
+On iOS the permission is always granted: the app's Documents directory is its own sandbox and iOS
+asks for nothing. The example app's `StorageWriteTester` writes a real file on both platforms, which
+is the only way to see the difference between a granted state and a write that actually lands.
 
 ### LOCAL_NETWORK
 
